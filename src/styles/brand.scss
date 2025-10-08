@@ -1,0 +1,185 @@
+// BetterYou Brand Styles using CSS Variables
+// This file demonstrates how to use the CSS custom properties in SCSS
+
+// Brand color mixins for easy usage
+@mixin primary-color($shade: 500) {
+  color: var(--color-primary-#{$shade});
+}
+
+@mixin primary-bg($shade: 500) {
+  background-color: var(--color-primary-#{$shade});
+}
+
+@mixin secondary-color($shade: 500) {
+  color: var(--color-secondary-#{$shade});
+}
+
+@mixin secondary-bg($shade: 500) {
+  background-color: var(--color-secondary-#{$shade});
+}
+
+@mixin tertiary-color($shade: 500) {
+  color: var(--color-tertiary-#{$shade});
+}
+
+@mixin tertiary-bg($shade: 500) {
+  background-color: var(--color-tertiary-#{$shade});
+}
+
+// Brand button styles
+.btn-primary {
+  @include primary-bg(500);
+  @include primary-color(50);
+  border: none;
+  padding: 0.75rem 1.5rem;
+  border-radius: 0.5rem;
+  font-weight: 600;
+  transition: all 0.2s ease;
+
+  &:hover {
+    @include primary-bg(600);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px var(--color-primary-200);
+  }
+
+  &:active {
+    @include primary-bg(700);
+    transform: translateY(0);
+  }
+}
+
+.btn-secondary {
+  @include secondary-bg(500);
+  @include secondary-color(50);
+  border: none;
+  padding: 0.75rem 1.5rem;
+  border-radius: 0.5rem;
+  font-weight: 600;
+  transition: all 0.2s ease;
+
+  &:hover {
+    @include secondary-bg(600);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px var(--color-secondary-200);
+  }
+
+  &:active {
+    @include secondary-bg(700);
+    transform: translateY(0);
+  }
+}
+
+.btn-outline-primary {
+  background: transparent;
+  @include primary-color(500);
+  border: 2px solid var(--color-primary-500);
+  padding: 0.75rem 1.5rem;
+  border-radius: 0.5rem;
+  font-weight: 600;
+  transition: all 0.2s ease;
+
+  &:hover {
+    @include primary-bg(500);
+    @include primary-color(50);
+    transform: translateY(-1px);
+  }
+}
+
+// Brand card styles
+.brand-card {
+  background: white;
+  border-radius: 1rem;
+  padding: 2rem;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+  border: 1px solid var(--color-tertiary-200);
+  transition: all 0.3s ease;
+
+  &:hover {
+    box-shadow: 0 10px 25px -3px rgba(0, 0, 0, 0.1);
+    transform: translateY(-2px);
+  }
+
+  .card-header {
+    @include primary-color(700);
+    font-size: 1.25rem;
+    font-weight: 700;
+    margin-bottom: 1rem;
+  }
+
+  .card-content {
+    @include tertiary-color(700);
+    line-height: 1.6;
+  }
+}
+
+// Brand navigation styles
+.brand-nav {
+  .nav-item {
+    @include tertiary-color(600);
+    padding: 0.5rem 1rem;
+    border-radius: 0.5rem;
+    transition: all 0.2s ease;
+
+    &:hover {
+      @include primary-bg(100);
+      @include primary-color(700);
+    }
+
+    &.active {
+      @include primary-bg(100);
+      @include primary-color(700);
+      font-weight: 600;
+    }
+  }
+}
+
+// Brand form styles
+.brand-input {
+  border: 2px solid var(--color-tertiary-300);
+  border-radius: 0.5rem;
+  padding: 0.75rem 1rem;
+  transition: all 0.2s ease;
+
+  &:focus {
+    outline: none;
+    border-color: var(--color-primary-500);
+    box-shadow: 0 0 0 3px var(--color-primary-100);
+  }
+
+  &::placeholder {
+    @include tertiary-color(400);
+  }
+}
+
+// Brand alert styles
+.alert-success {
+  @include secondary-bg(50);
+  @include secondary-color(800);
+  border: 1px solid var(--color-secondary-200);
+  border-radius: 0.5rem;
+  padding: 1rem;
+}
+
+.alert-info {
+  @include primary-bg(50);
+  @include primary-color(800);
+  border: 1px solid var(--color-primary-200);
+  border-radius: 0.5rem;
+  padding: 1rem;
+}
+
+.alert-warning {
+  background-color: #fff3e0;
+  color: #e65100;
+  border: 1px solid #ffb74d;
+  border-radius: 0.5rem;
+  padding: 1rem;
+}
+
+.alert-error {
+  background-color: #ffebee;
+  color: #c62828;
+  border: 1px solid #ef5350;
+  border-radius: 0.5rem;
+  padding: 1rem;
+}
