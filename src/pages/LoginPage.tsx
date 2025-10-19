@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { Button } from '../components/ui/button';
 
 const LoginPage: React.FC = () => {
   return (
@@ -61,7 +62,7 @@ const LoginPage: React.FC = () => {
                 />
               </div>
             </div>
-
+            {/* 
             <div className="flex items-center justify-between">
               <div className="flex items-center">
                 <input
@@ -86,15 +87,16 @@ const LoginPage: React.FC = () => {
                   Forgot your password?
                 </a>
               </div>
-            </div>
+            </div> */}
 
             <div>
-              <button
+              <Button
                 type="submit"
-                className="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-primary-600 hover:bg-primary-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500"
+                variant="success"
+                className="bg-primary-600"
               >
                 Sign in
-              </button>
+              </Button>
             </div>
           </form>
         </div>

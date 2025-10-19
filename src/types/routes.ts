@@ -1,15 +1,17 @@
-import { type ComponentType } from 'react';
+import { type ComponentType, type ReactNode } from 'react';
 
 export interface RouteConfig {
   path: string;
   component: ComponentType;
   title: string;
   protected?: boolean;
-  children?: RouteConfig[];
+  children?: readonly RouteConfig[];
+  redirect?: string;
+  layout?: ComponentType<{ children: ReactNode }>;
 }
 
 export interface AppRoute extends RouteConfig {
-  children?: AppRoute[];
+  children?: readonly AppRoute[];
 }
 
-export type RouteConfigArray = RouteConfig[];
+export type RouteConfigArray = readonly RouteConfig[];

@@ -1,13 +1,6 @@
-@import "tailwindcss";
+@import 'tailwindcss';
 
-/* BetterYou Brand Colors */
-:root {
-  font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
-  line-height: 1.5;
-  font-weight: 400;
-
-  /* BetterYou Brand Colors */
-  /* Primary Colors (Blue from water droplet and "Better" text) */
+@theme {
   --color-primary-50: #e6f3ff;
   --color-primary-100: #cce7ff;
   --color-primary-200: #99cfff;
@@ -19,7 +12,6 @@
   --color-primary-800: #224458;
   --color-primary-900: #162936;
 
-  /* Secondary Colors (Green from leaf and "You" text) */
   --color-secondary-50: #e6f7f0;
   --color-secondary-100: #ccefe1;
   --color-secondary-200: #99dfc3;
@@ -31,7 +23,6 @@
   --color-secondary-800: #2b5447;
   --color-secondary-900: #192e28;
 
-  /* Tertiary Colors (Neutral grays) */
   --color-tertiary-50: #fafafa;
   --color-tertiary-100: #f5f5f5;
   --color-tertiary-200: #eeeeee;
@@ -43,16 +34,16 @@
   --color-tertiary-800: #424242;
   --color-tertiary-900: #212121;
 
-  /* Semantic Colors */
   --color-success: var(--color-secondary-500);
   --color-info: var(--color-primary-500);
   --color-warning: #ffb74d;
   --color-error: #f44336;
+}
 
-  /* Main brand colors for easy access */
-  --color-primary: var(--color-primary-500);
-  --color-secondary: var(--color-secondary-500);
-  --color-tertiary: var(--color-tertiary-500);
+:root {
+  font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
+  line-height: 1.5;
+  font-weight: 400;
 }
 
 body {
