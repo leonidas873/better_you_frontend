@@ -8,6 +8,19 @@ import TherapistDashboard from '../pages/TherapistDashboard/TherapistDashboard';
 import RegisterPage from '../pages/RegisterPage/RegisterPage';
 import { createBrowserRouter, redirect } from 'react-router-dom';
 
+export const ROUTE_CONFIG = [
+  { path: '/', title: 'Home', protected: false },
+  { path: '/login', title: 'Login', protected: false },
+  { path: '/register', title: 'Register', protected: false },
+  { path: '/apply', title: 'Apply', protected: false },
+  {
+    path: '/therapist-dashboard',
+    title: 'Therapist Dashboard',
+    protected: true,
+  },
+  { path: '/client-dashboard', title: 'Client Dashboard', protected: true },
+];
+
 export const router = createBrowserRouter([
   {
     path: '/',

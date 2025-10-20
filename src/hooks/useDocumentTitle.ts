@@ -7,7 +7,9 @@ export const useDocumentTitle = () => {
 
   useEffect(() => {
     const path = location.pathname;
-    const route = ROUTE_CONFIG.find(r => r.path === path);
+    const route = ROUTE_CONFIG.find(
+      (r: { path: string; title: string }) => r.path === path
+    );
 
     if (route) {
       document.title = `${route.title} - Better You`;

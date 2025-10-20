@@ -1,9 +1,9 @@
 import httpClient from '../httpClient';
 import {
-  Questionnaire,
-  SubmitQuestionnaireDto,
-  QuestionnaireAnswersResponse,
-  VisibleQuestionsResponse,
+  type Questionnaire,
+  type SubmitQuestionnaireDto,
+  type QuestionnaireAnswersResponse,
+  type VisibleQuestionsResponse,
 } from './questions.types';
 
 // Get registration questionnaires (public, no auth required)

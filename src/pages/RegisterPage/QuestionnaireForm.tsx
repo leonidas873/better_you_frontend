@@ -1,8 +1,7 @@
 import React, { useState } from 'react';
 import {
-  Questionnaire,
-  SubmitAnswerDto,
-  QuestionType,
+  type Questionnaire,
+  type SubmitAnswerDto,
 } from '../../services/questions';
 import QuestionRenderer from './QuestionRenderer';
 

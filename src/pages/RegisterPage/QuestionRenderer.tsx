@@ -1,8 +1,8 @@
 import React from 'react';
 import {
-  Question,
+  type Question,
   QuestionType,
-  SubmitAnswerDto,
+  type SubmitAnswerDto,
 } from '../../services/questions';
 
 interface QuestionRendererProps {

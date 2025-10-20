@@ -9,7 +9,7 @@ import {
   getMyAnswers,
   checkQuestionnaireCompleted,
 } from './questions.api';
-import { SubmitQuestionnaireDto } from './questions.types';
+import { type SubmitQuestionnaireDto } from './questions.types';
 
 // Query Keys
 export const questionnaireKeys = {

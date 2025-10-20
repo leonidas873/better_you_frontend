@@ -17,7 +17,7 @@ interface UserState {
 }
 
 interface UserActions {
-  login: (email: string, password: string) => Promise<void>;
+  login: (email: string) => Promise<void>;
   register: (
     userData: Omit<User, 'id'> & { password: string }
   ) => Promise<void>;
@@ -31,7 +31,7 @@ type UserStore = UserState & UserActions;
 
 export const useUserStore = create<UserStore>()(
   persist(
-    (set, get) => ({
+    set => ({
       // State
       user: null,
       isAuthenticated: false,
@@ -39,7 +39,7 @@ export const useUserStore = create<UserStore>()(
       error: null,
 
       // Actions
-      login: async (email: string, password: string) => {
+      login: async (email: string) => {
         set({ isLoading: true, error: null });
 
         try {

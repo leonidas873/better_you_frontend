@@ -1,10 +1,12 @@
 // Question Types
-export enum QuestionType {
-  OPEN_TEXT = 'open_text',
-  SINGLE_CHOICE = 'single_choice',
-  MULTIPLE_CHOICE = 'multiple_choice',
-  SELECT = 'select',
-}
+export const QuestionType = {
+  OPEN_TEXT: 'open_text',
+  SINGLE_CHOICE: 'single_choice',
+  MULTIPLE_CHOICE: 'multiple_choice',
+  SELECT: 'select',
+} as const;
+
+export type QuestionType = (typeof QuestionType)[keyof typeof QuestionType];
 
 // Conditional Logic Types
 export type ConditionOperator =
