@@ -24,11 +24,113 @@ const QuestionnaireForm: React.FC<QuestionnaireFormProps> = ({
   );
   const [errors, setErrors] = useState<Map<number, string>>(new Map());
 
-  const currentQuestion = questionnaire.questions[currentQuestionIndex];
-  const isLastQuestion =
-    currentQuestionIndex === questionnaire.questions.length - 1;
+  // Filter questions based on showIf conditions
+  const getVisibleQuestions = () => {
+    return questionnaire.questions.filter(question => {
+      // If no condition, always show
+      if (!question.showIf || !question.showIf.conditions) {
+        return true;
+      }
+
+      // Evaluate conditions
+      const logic = question.showIf.logic || 'AND';
+      const results = question.showIf.conditions.map(condition => {
+        // Find the answer for the referenced question
+        const referencedAnswer = answers.get(condition.questionId);
+
+        switch (condition.operator) {
+          case 'answered':
+            return !!referencedAnswer;
+
+          case 'not_answered':
+            return !referencedAnswer;
+
+          case 'equals':
+            if (!referencedAnswer) return false;
+            if (
+              condition.selectedOptionIds &&
+              referencedAnswer.selectedOptionIds
+            ) {
+              const sortedAnswer = [
+                ...referencedAnswer.selectedOptionIds,
+              ].sort();
+              const sortedCondition = [...condition.selectedOptionIds].sort();
+              return (
+                JSON.stringify(sortedAnswer) === JSON.stringify(sortedCondition)
+              );
+            }
+            if (condition.textValue && referencedAnswer.textAnswer) {
+              return referencedAnswer.textAnswer === condition.textValue;
+            }
+            return false;
+
+          case 'not_equals':
+            if (!referencedAnswer) return true;
+            if (
+              condition.selectedOptionIds &&
+              referencedAnswer.selectedOptionIds
+            ) {
+              const sortedAnswer = [
+                ...referencedAnswer.selectedOptionIds,
+              ].sort();
+              const sortedCondition = [...condition.selectedOptionIds].sort();
+              return (
+                JSON.stringify(sortedAnswer) !== JSON.stringify(sortedCondition)
+              );
+            }
+            if (condition.textValue && referencedAnswer.textAnswer) {
+              return referencedAnswer.textAnswer !== condition.textValue;
+            }
+            return true;
+
+          case 'contains':
+            if (!referencedAnswer || !condition.selectedOptionIds) return false;
+            if (referencedAnswer.selectedOptionIds) {
+              return condition.selectedOptionIds.some(optionId =>
+                referencedAnswer.selectedOptionIds?.includes(optionId)
+              );
+            }
+            if (condition.textValue && referencedAnswer.textAnswer) {
+              return referencedAnswer.textAnswer.includes(condition.textValue);
+            }
+            return false;
+
+          case 'not_contains':
+            if (!referencedAnswer) return true;
+            if (
+              condition.selectedOptionIds &&
+              referencedAnswer.selectedOptionIds
+            ) {
+              return !condition.selectedOptionIds.some(optionId =>
+                referencedAnswer.selectedOptionIds?.includes(optionId)
+              );
+            }
+            if (condition.textValue && referencedAnswer.textAnswer) {
+              return !referencedAnswer.textAnswer.includes(condition.textValue);
+            }
+            return true;
+
+          default:
+            return false;
+        }
+      });
+
+      // Apply logic (AND or OR)
+      if (logic === 'AND') {
+        return results.every(r => r === true);
+      } else {
+        return results.some(r => r === true);
+      }
+    });
+  };
+
+  const visibleQuestions = getVisibleQuestions();
+  const currentQuestion = visibleQuestions[currentQuestionIndex];
+  const isLastQuestion = currentQuestionIndex === visibleQuestions.length - 1;
   const progress =
-    ((currentQuestionIndex + 1) / questionnaire.questions.length) * 100;
+    visibleQuestions.length > 0
+      ? ((currentQuestionIndex + 1) / visibleQuestions.length) * 100
+      : 100;
 
   // Handle answer change
   const handleAnswerChange = (answer: SubmitAnswerDto) => {
@@ -46,9 +148,24 @@ const QuestionnaireForm: React.FC<QuestionnaireFormProps> = ({
     });
   };
 
+  // Reset index if current question is no longer visible
+  React.useEffect(() => {
+    if (
+      currentQuestionIndex >= visibleQuestions.length &&
+      visibleQuestions.length > 0
+    ) {
+      setCurrentQuestionIndex(visibleQuestions.length - 1);
+    } else if (visibleQuestions.length === 0) {
+      // No visible questions - might happen if all are conditional
+      setCurrentQuestionIndex(0);
+    }
+  }, [visibleQuestions.length, currentQuestionIndex]);
+
   // Handle next/submit for current question
   const handleNext = (e: React.FormEvent) => {
     e.preventDefault();
+
+    if (!currentQuestion) return;
 
     // Validate current question if it's required
     if (currentQuestion.isRequired) {
@@ -110,8 +227,7 @@ const QuestionnaireForm: React.FC<QuestionnaireFormProps> = ({
         <div className="mt-4">
           <div className="flex justify-between items-center mb-2">
             <span className="text-sm font-medium text-gray-700">
-              Question {currentQuestionIndex + 1} of{' '}
-              {questionnaire.questions.length}
+              Question {currentQuestionIndex + 1} of {visibleQuestions.length}
             </span>
             <span className="text-sm text-gray-500">
               {Math.round(progress)}%
@@ -128,14 +244,22 @@ const QuestionnaireForm: React.FC<QuestionnaireFormProps> = ({
 
       <form onSubmit={handleNext} className="space-y-6">
         {/* Show only current question */}
-        <div data-has-error={errors.has(currentQuestion.id) ? 'true' : 'false'}>
-          <QuestionRenderer
-            question={currentQuestion}
-            answer={answers.get(currentQuestion.id)}
-            onChange={handleAnswerChange}
-            error={errors.get(currentQuestion.id)}
-          />
-        </div>
+        {currentQuestion ? (
+          <div
+            data-has-error={errors.has(currentQuestion.id) ? 'true' : 'false'}
+          >
+            <QuestionRenderer
+              question={currentQuestion}
+              answer={answers.get(currentQuestion.id)}
+              onChange={handleAnswerChange}
+              error={errors.get(currentQuestion.id)}
+            />
+          </div>
+        ) : (
+          <div className="text-center py-8 text-gray-500">
+            No questions available
+          </div>
+        )}
 
         <div className="flex justify-between items-center pt-4 border-t">
           <div className="flex space-x-4">
