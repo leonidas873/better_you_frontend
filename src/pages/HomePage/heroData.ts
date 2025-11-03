@@ -39,6 +39,6 @@ export const heroQuotes: Quote[] = [
 ];
 
 export const heroImageData = {
-  src: '/src/assets/esmeralda-removebg-preview.png',
+  src: '/esmeralda-removebg-preview.png',
   alt: 'Better You - Personal Growth and Self Improvement',
 };
