@@ -1,5 +1,4 @@
 import React from 'react';
-import QuoteSlider from './QuoteSlider';
 import QuoteSliderSimple from './QuoteSliderSimple';
 import HeroImage from './HeroImage';
 

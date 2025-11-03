@@ -1,6 +1,8 @@
 import React from 'react';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Autoplay, EffectFade, Navigation, Pagination } from 'swiper/modules';
+
+// Import Swiper styles - Swiper v11+ uses new import paths
 import 'swiper/css';
 import 'swiper/css/effect-fade';
 import 'swiper/css/navigation';
@@ -52,7 +54,6 @@ const QuoteSlider: React.FC<QuoteSliderProps> = ({
         centeredSlides={false}
         allowTouchMove={true}
         watchSlidesProgress={true}
-        watchSlidesVisibility={true}
       >
         {quotes.map(quote => (
           <SwiperSlide key={quote.id} className="h-full w-full">
