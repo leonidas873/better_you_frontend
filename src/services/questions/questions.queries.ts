@@ -39,7 +39,7 @@ export const useRegistrationQuestionnaires = (
 export const useActiveQuestionnaires = () => {
   return useQuery({
     queryKey: questionnaireKeys.active(),
-    queryFn: getActiveQuestionnaires,
+    queryFn: () => getActiveQuestionnaires(),
   });
 };
 
@@ -47,7 +47,7 @@ export const useActiveQuestionnaires = () => {
 export const useRequiredQuestionnaires = (enabled = true) => {
   return useQuery({
     queryKey: questionnaireKeys.required(),
-    queryFn: getRequiredQuestionnaires,
+    queryFn: () => getRequiredQuestionnaires(),
     enabled,
   });
 };
