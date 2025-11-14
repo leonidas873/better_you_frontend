@@ -5,6 +5,7 @@ import {
   useSubmitAnswers,
   type SubmitAnswerDto,
 } from '../../services/questions';
+import { registerClient } from '../../services/auth/auth.api';
 import QuestionnaireForm from './QuestionnaireForm';
 
 type RegistrationStep = 'questionnaire' | 'account' | 'complete';
@@ -123,24 +124,70 @@ const RegisterPage: React.FC = () => {
     setIsSubmitting(true);
 
     try {
-      // TODO: Replace with actual registration API call
-      await new Promise(resolve => setTimeout(resolve, 1000));
+      // Split fullName into firstName and lastName
+      const nameParts = formData.fullName.trim().split(/\s+/);
+      const firstName = nameParts[0] || '';
+      const lastName = nameParts.slice(1).join(' ') || firstName;
 
-      // Mock: Store auth token
-      localStorage.setItem('auth_token', 'mock-token-' + Date.now());
+      // Register user (only account fields, NOT answers)
+      const authResponse = await registerClient({
+        email: formData.email,
+        password: formData.password,
+        firstName,
+        lastName,
+      });
 
-      // Submit all questionnaire answers
+      // Store the JWT token from registration/login response
+      localStorage.setItem('auth_token', authResponse.access_token);
+
+      // Now submit all questionnaire answers (requires authentication)
       for (const qa of questionnaireAnswers) {
         try {
-          await submitAnswersMutation.mutateAsync(qa);
+          // Validate that all question IDs in answers belong to this questionnaire
+          // Fetch the current questionnaire to verify question IDs
+          const { getQuestionnaire } = await import(
+            '../../services/questions/questions.api'
+          );
+          const currentQuestionnaire = await getQuestionnaire(
+            qa.questionnaireId
+          );
+
+          // Get valid question IDs for this questionnaire
+          const validQuestionIds = new Set(
+            currentQuestionnaire.questions.map(q => q.id)
+          );
+
+          // Filter out any answers with invalid question IDs
+          const validAnswers = qa.answers.filter(answer =>
+            validQuestionIds.has(answer.questionId)
+          );
+
+          if (validAnswers.length === 0) {
+            console.warn(
+              `No valid answers for questionnaire ${qa.questionnaireId} - skipping`
+            );
+            continue;
+          }
+
+          // Submit only valid answers
+          await submitAnswersMutation.mutateAsync({
+            questionnaireId: qa.questionnaireId,
+            answers: validAnswers,
+          });
         } catch (error: unknown) {
           console.error('Failed to submit questionnaire answers:', error);
+          // Continue with other questionnaires even if one fails
         }
       }
 
       setStep('complete');
-    } catch {
-      alert('Registration failed. Please try again.');
+    } catch (error: unknown) {
+      console.error('Registration error:', error);
+      const errorMessage =
+        error instanceof Error
+          ? error.message
+          : 'Registration failed. Please try again.';
+      alert(errorMessage);
     } finally {
       setIsSubmitting(false);
     }

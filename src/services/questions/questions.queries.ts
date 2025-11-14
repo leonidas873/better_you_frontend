@@ -26,10 +26,12 @@ export const questionnaireKeys = {
 };
 
 // Get Registration Questionnaires (public)
-export const useRegistrationQuestionnaires = () => {
+export const useRegistrationQuestionnaires = (
+  userType?: 'therapist' | 'client'
+) => {
   return useQuery({
-    queryKey: questionnaireKeys.registration(),
-    queryFn: getRegistrationQuestionnaires,
+    queryKey: [...questionnaireKeys.registration(), userType],
+    queryFn: () => getRegistrationQuestionnaires(userType),
   });
 };
 

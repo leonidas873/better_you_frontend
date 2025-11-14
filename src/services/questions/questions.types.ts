@@ -55,6 +55,7 @@ export interface Questionnaire {
   description?: string;
   isActive: boolean;
   isRequired: boolean;
+  targetUserType?: 'therapist' | 'client' | 'both';
   createdAt: string;
   updatedAt: string;
   questions: Question[];

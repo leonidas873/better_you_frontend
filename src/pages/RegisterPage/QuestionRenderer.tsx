@@ -64,7 +64,7 @@ const QuestionRenderer: React.FC<QuestionRendererProps> = ({
               onChange={handleTextChange}
               rows={4}
               required={question.isRequired}
-              className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md placeholder-gray-400 focus:outline-none focus:ring-primary-500 focus:border-primary-500 sm:text-sm"
+              className="appearance-none block w-full px-3 py-2 border border-tertiary-300 rounded-md placeholder-tertiary-400 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-primary-500 sm:text-sm transition-colors"
               placeholder="Enter your answer..."
             />
           </div>
@@ -76,7 +76,7 @@ const QuestionRenderer: React.FC<QuestionRendererProps> = ({
             {question.options?.map(option => (
               <label
                 key={option.id}
-                className="flex items-center space-x-3 p-3 border border-gray-300 rounded-md hover:bg-gray-50 cursor-pointer"
+                className="flex items-center space-x-3 p-3 border border-tertiary-300 rounded-md hover:bg-tertiary-50 cursor-pointer transition-colors"
               >
                 <input
                   type="radio"
@@ -85,9 +85,9 @@ const QuestionRenderer: React.FC<QuestionRendererProps> = ({
                   checked={answer?.selectedOptionIds?.includes(option.id)}
                   onChange={() => handleSingleChoice(option.id)}
                   required={question.isRequired}
-                  className="h-4 w-4 text-primary-600 focus:ring-primary-500 border-gray-300"
+                  className="h-4 w-4 text-primary-600 focus:ring-primary-500 border-tertiary-300"
                 />
-                <span className="text-sm text-gray-700">
+                <span className="text-sm text-tertiary-800">
                   {option.optionText}
                 </span>
               </label>
@@ -101,7 +101,7 @@ const QuestionRenderer: React.FC<QuestionRendererProps> = ({
             {question.options?.map(option => (
               <label
                 key={option.id}
-                className="flex items-center space-x-3 p-3 border border-gray-300 rounded-md hover:bg-gray-50 cursor-pointer"
+                className="flex items-center space-x-3 p-3 border border-tertiary-300 rounded-md hover:bg-tertiary-50 cursor-pointer transition-colors"
               >
                 <input
                   type="checkbox"
@@ -110,9 +110,9 @@ const QuestionRenderer: React.FC<QuestionRendererProps> = ({
                   onChange={e =>
                     handleMultipleChoice(option.id, e.target.checked)
                   }
-                  className="h-4 w-4 text-primary-600 focus:ring-primary-500 border-gray-300 rounded"
+                  className="h-4 w-4 text-primary-600 focus:ring-primary-500 border-tertiary-300 rounded"
                 />
-                <span className="text-sm text-gray-700">
+                <span className="text-sm text-tertiary-800">
                   {option.optionText}
                 </span>
               </label>
@@ -126,7 +126,7 @@ const QuestionRenderer: React.FC<QuestionRendererProps> = ({
             value={answer?.selectedOptionIds?.[0] || ''}
             onChange={handleSelectChange}
             required={question.isRequired}
-            className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md placeholder-gray-400 focus:outline-none focus:ring-primary-500 focus:border-primary-500 sm:text-sm"
+            className="appearance-none block w-full px-3 py-2 border border-tertiary-300 rounded-md placeholder-tertiary-400 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-primary-500 sm:text-sm transition-colors bg-white"
           >
             <option value="">-- Select an option --</option>
             {question.options?.map(option => (
@@ -138,24 +138,24 @@ const QuestionRenderer: React.FC<QuestionRendererProps> = ({
         );
 
       default:
-        return <p className="text-red-500">Unknown question type</p>;
+        return <p className="text-error">Unknown question type</p>;
     }
   };
 
   return (
     <div className="mb-6">
-      <label className="block text-sm font-medium text-gray-700 mb-2">
+      <label className="block text-sm font-medium text-tertiary-800 mb-2">
         {question.questionText}
-        {question.isRequired && <span className="text-red-500 ml-1">*</span>}
+        {question.isRequired && <span className="text-error ml-1">*</span>}
       </label>
 
       {question.helpText && (
-        <p className="text-sm text-gray-500 mb-3">{question.helpText}</p>
+        <p className="text-sm text-tertiary-600 mb-3">{question.helpText}</p>
       )}
 
       {renderQuestion()}
 
-      {error && <p className="mt-2 text-sm text-red-600">{error}</p>}
+      {error && <p className="mt-2 text-sm text-error">{error}</p>}
     </div>
   );
 };

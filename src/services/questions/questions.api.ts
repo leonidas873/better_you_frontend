@@ -7,22 +7,35 @@ import {
 } from './questions.types';
 
 // Get registration questionnaires (public, no auth required)
-export const getRegistrationQuestionnaires = async (): Promise<
-  Questionnaire[]
-> => {
-  const response = await httpClient.get('/user/questionnaire/registration');
+export const getRegistrationQuestionnaires = async (
+  userType?: 'therapist' | 'client'
+): Promise<Questionnaire[]> => {
+  const params = userType ? { userType } : {};
+  const response = await httpClient.get('/user/questionnaire/registration', {
+    params,
+  });
   return response.data;
 };
 
 // Get all active questionnaires
-export const getActiveQuestionnaires = async (): Promise<Questionnaire[]> => {
-  const response = await httpClient.get('/user/questionnaire/active');
+export const getActiveQuestionnaires = async (
+  userType?: 'therapist' | 'client'
+): Promise<Questionnaire[]> => {
+  const params = userType ? { userType } : {};
+  const response = await httpClient.get('/user/questionnaire/active', {
+    params,
+  });
   return response.data;
 };
 
 // Get all required questionnaires
-export const getRequiredQuestionnaires = async (): Promise<Questionnaire[]> => {
-  const response = await httpClient.get('/user/questionnaire/required');
+export const getRequiredQuestionnaires = async (
+  userType?: 'therapist' | 'client'
+): Promise<Questionnaire[]> => {
+  const params = userType ? { userType } : {};
+  const response = await httpClient.get('/user/questionnaire/required', {
+    params,
+  });
   return response.data;
 };
 

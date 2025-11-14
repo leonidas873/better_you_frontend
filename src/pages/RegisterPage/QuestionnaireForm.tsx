@@ -216,24 +216,24 @@ const QuestionnaireForm: React.FC<QuestionnaireFormProps> = ({
   return (
     <div>
       <div className="mb-6">
-        <h2 className="text-2xl font-bold text-gray-900">
+        <h2 className="text-2xl font-bold text-tertiary-900">
           {questionnaire.title}
         </h2>
         {questionnaire.description && (
-          <p className="mt-2 text-gray-600">{questionnaire.description}</p>
+          <p className="mt-2 text-tertiary-700">{questionnaire.description}</p>
         )}
 
         {/* Progress bar */}
         <div className="mt-4">
           <div className="flex justify-between items-center mb-2">
-            <span className="text-sm font-medium text-gray-700">
+            <span className="text-sm font-medium text-tertiary-800">
               Question {currentQuestionIndex + 1} of {visibleQuestions.length}
             </span>
-            <span className="text-sm text-gray-500">
+            <span className="text-sm text-tertiary-600">
               {Math.round(progress)}%
             </span>
           </div>
-          <div className="w-full bg-gray-200 rounded-full h-2">
+          <div className="w-full bg-tertiary-200 rounded-full h-2">
             <div
               className="bg-primary-600 h-2 rounded-full transition-all duration-300"
               style={{ width: `${progress}%` }}
@@ -256,18 +256,18 @@ const QuestionnaireForm: React.FC<QuestionnaireFormProps> = ({
             />
           </div>
         ) : (
-          <div className="text-center py-8 text-gray-500">
+          <div className="text-center py-8 text-tertiary-600">
             No questions available
           </div>
         )}
 
-        <div className="flex justify-between items-center pt-4 border-t">
+        <div className="flex justify-between items-center pt-4 border-t border-tertiary-300">
           <div className="flex space-x-4">
             {currentQuestionIndex > 0 && (
               <button
                 type="button"
                 onClick={handlePrevious}
-                className="inline-flex justify-center py-2 px-6 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500"
+                className="inline-flex justify-center py-2 px-6 border border-tertiary-300 rounded-md shadow-sm text-sm font-medium text-tertiary-800 bg-white hover:bg-tertiary-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500 transition-colors"
               >
                 Previous
               </button>
@@ -279,7 +279,7 @@ const QuestionnaireForm: React.FC<QuestionnaireFormProps> = ({
                 <button
                   type="button"
                   onClick={() => onSkip(Array.from(answers.values()))}
-                  className="text-sm text-gray-600 hover:text-gray-800"
+                  className="text-sm text-tertiary-700 hover:text-tertiary-900 transition-colors"
                 >
                   Skip questionnaire
                 </button>
